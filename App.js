@@ -9,18 +9,19 @@ import Footer from './Footer'
 class App extends React.Component{
   constructor(props){
     super(props);
-    if(localStorage.getItem("tasks") != null){
-      const client = axi
+    const axios = require('axios');
+    axios.get('https://raw.githubusercontent.com/Lucas-Rodrigues2/TodoListReactNative/8f900427591602e9054af44eb46e9b94f104a23c/storage.json')
+    .then(function (response) {
       this.state = {
-        taches : JSON.parse(localStorage.getItem("tasks"))
+        taches : JSON.parse(response.data)
       };
-    }
-    else{
-      
+    })
+    .catch(function (error) {
+      console.log(error);
       this.state = {
         taches : [{"title":"Idée","isChecked":true},{"title":"Marché","isChecked":true},{"title":"Wireframe","isChecked":true},{"title":"Design","isChecked":true},{"title":"Landingpage","isChecked":true},{"title":"Développement","isChecked":false},{"title":"Publish","isChecked":false},{"title":"Pub","isChecked":false},{"title":"Feedback","isChecked":false}]
       };
-    }
+    });
   }
 
   afficheTaches(){
@@ -75,8 +76,7 @@ class App extends React.Component{
   }
 
   sauvegarder(){
-    localStorage.setItem('tasks',JSON.stringify(this.state.taches));
-    this.setState({taches : JSON.parse(localStorage.getItem("tasks"))});
+    //on n'a pas trouvé de solution pour sauvegarder avec axios
   }
 
   rechercher(){
